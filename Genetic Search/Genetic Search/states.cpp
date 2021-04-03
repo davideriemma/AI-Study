@@ -3,29 +3,36 @@
 
 #include "states.h"
 
-template <typename T>
-population_member<T> goal_test(const std::priority_queue<population_member<T>>& population, Goal goal, float epsilon)
-{
-	population_member<T> result = {"", 0, 0};
 
-	for (population_member<T> member : population)
+population_member<float> goal_test(population_type& population, Goal goal, float epsilon)
+{
+	population_member<float> result = {"", 0, 0}, type;
+	population_type backup;
+
+	for (unsigned int i = 0; i < population.size(); ++i)
 	{
-		if (goal - member.value > && goal - member.value <= epsilon)
-			result = member;
+		type = population.top();
+		population.pop();
+		if (goal - type.value > 0 && goal - type.value <= epsilon)
+			result = type;
+		else
+			backup.push(type);
 	}
+
+	population = backup;
+
+	return result;
 }
 
-template <typename T>
-void print_member(const population_member<T>& member)
+void print_member(struct population_member<float> const & member)
 {
-	std::cout << member.name << " [genome: " << member.genome << ", value: " << member.value << "]";
+	std::cout << member.name << " [genome: " << std::hex << member.genome << ", value: " << member.value << "]";
 }
 
-template <typename T>
-population_member<T> breed(const population_member<T>& parent1, const population_member<T>& parent2)
+population_member<float> breed(const population_member<float>& parent1, const population_member<float>& parent2)
 {
 	/*create child*/
-	population_member<T> child;
+	population_member<float> child;
 	/*set mutation threshold*/
 	const float mutation_treshold = 1.5;
 
@@ -37,7 +44,7 @@ population_member<T> breed(const population_member<T>& parent1, const population
 
 	std::random_device rand;
 	std::uniform_int_distribution<unsigned int> dist(0, 7);
-	std::uniform_real_distribution<float> mutation_dist(0 3);
+	std::uniform_real_distribution<> mutation_dist(0, 3);
 
 	unsigned int single_crossover_point = dist(rand);
 

@@ -15,7 +15,7 @@ const static population_member<float> data[] = {
 	{"Toilet Pochette", 0x10000000, 2}
 };
 
-void fill_population(std::priority_queue<population_member<float>>& population);
+void fill_population(population_type& population);
 
 int main(int argc, char ** argv)
 {
@@ -24,7 +24,7 @@ int main(int argc, char ** argv)
 	float epsilon = std::stof(std::string(argv[2]), nullptr);
 
 	/*this queue represents the population of the algorithm*/
-	std::priority_queue<population_member<float>> population, new_population, * population_ptr = &population, * new_population_ptr = &new_population, *temp;
+	population_type population, new_population, * population_ptr = &population, * new_population_ptr = &new_population, *temp;
 	/*this rapesents the result*/
 	population_member<float> result;
 
@@ -34,10 +34,11 @@ int main(int argc, char ** argv)
 	/*display the inital state*/
 	std::cout << "Initial state of population" << std::endl;
 
-	for (int i = 0; i < population.size(); ++i)
+	for (unsigned int i = 0; i < population.size(); ++i)
 	{
-		population_member<float> temp = population.top();
-		print_member(temp);
+		struct population_member<float> temp1 = population.top();
+		print_member(temp1);
+		std::cout << std::endl;
 		population.pop(); /*ahimè, per questo non possiamo fare niente: per leggere i valori dobbiamo necessariamente svuotare la queue*/
 	}
 
@@ -77,7 +78,7 @@ int main(int argc, char ** argv)
 	return 0;
 }
 
-void fill_population(std::priority_queue<population_member<float>>& population)
+void fill_population(population_type& population)
 {
 
 	for (auto element : data)

@@ -10,15 +10,17 @@ struct population_member{
 	unsigned char genome; /*genome of the member*/
 	MEMBER_TYPE value; /*value of the member*/
 
+	bool operator()(const population_member<MEMBER_TYPE>& member1, const population_member<MEMBER_TYPE>& member2)
+	{
+		return member1.value < member2.value;
+	}
 };
 
 typedef unsigned int Goal;
+typedef std::priority_queue<population_member<float>, std::vector<population_member<float>>, population_member<float>> population_type;
 
-template <typename T>
-population_member<T> goal_test(const std::priority_queue<population_member<T>>&, Goal, float);
+population_member<float> goal_test(population_type&, Goal, float);
 
-template <typename T>
-void print_member(const population_member<T>&);
+void print_member(struct population_member<float> const& member);
 
-template <typename T>
-population_member<T> breed(const population_member<T>&, const population_member<T>&);
+population_member<float> breed(const population_member<float>&, const population_member<float>&);
