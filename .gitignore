@@ -1,0 +1,4 @@
+venv/
+FFNN.vpp.bak_000f
+.FFNN.vpp.lck
+.idea/*
